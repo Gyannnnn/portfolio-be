@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id             @default(cuid())
+  userName          String
+  userEmail         String          @unique
+  userPassword      String
+  userPortfolio     Portfolio? @relation("UserPortfolio") // no fields/references here
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+
+model Portfolio {
+  id             String @id @default(uuid())
+  userName       String
+  userHeading    String
+  userBio        String
+  userResumeLink String
+  userEmail      String
+  userGithubId   String
+  welcomeCode    String
+  views          Int    @default(0)
+  likes          Int    @default(0)
+  userId         String @unique
+
+  user User @relation("UserPortfolio", fields: [userId], references: [id])
+
+  about      AboutSection?
+  project    ProjectSection?
+  skill      SkillSection?
+  experience ExperienceSection?
+  education  EducationSection?
+}
+
+model AboutSection {
+  id               String @id @default(uuid())
+  aboutHeading     String
+  about            String
+  AboutSectionCode String
+
+  portfolioId String?    @unique
+  portfolio   Portfolio? @relation(fields: [portfolioId], references: [id])
+}
+
+model ProjectSection {
+  id                 String    @id @default(uuid())
+  projectHeading     String
+  projects           Project[]
+  portfolioId        String?   @unique
+  projectSectionCode String
+
+  portfolio Portfolio? @relation(fields: [portfolioId], references: [id])
+}
+
+model Project {
+  id                 String         @id @default(uuid())
+  projectName        String
+  projectHeading     String
+  projectDescription String
+  techStack          String[]
+  features           String[]
+  challenges         String[]
+  learnings          String[]
+  githubLink         String
+  deployedLink       String?
+  projectSectionId   String
+  projectSection     ProjectSection @relation(fields: [projectSectionId], references: [id])
+
+  @@index([projectName, projectDescription])
+}
+
+model SkillSection {
+  id               String  @id @default(uuid())
+  skillHeading     String
+  skillDescription String
+  skillSectionCode String
+  skills           Skill[]
+  portfolioId      String  @unique
+
+  portfolio Portfolio? @relation(fields: [portfolioId], references: [id])
+}
+
+model Skill {
+  id             String       @id @default(uuid())
+  skillIcon      String
+  skillName      String
+  skillIconColor String
+  skillSectionId String
+  skillsection   SkillSection @relation(fields: [skillSectionId], references: [id])
+}
+
+model ExperienceSection {
+  id                    String @id @default(uuid())
+  experienceHeading     String
+  experienceDescription String
+  portfolioId           String @unique
+  experienceSectionCode String
+
+  experience Experience[]
+  portfolio  Portfolio?   @relation(fields: [portfolioId], references: [id])
+}
+
+model Experience {
+  id                    String   @id @default(uuid())
+  experienceName        String
+  joiningDate           DateTime @default(now())
+  experienceDescription String
+  experienceSectionId   String
+
+  experienceSection ExperienceSection @relation(fields: [experienceSectionId], references: [id])
+}
+
+model EducationSection {
+  id                   String @id @default(uuid())
+  educationHeading     String
+  educationDescription String
+  educationSectionCode String
+  portfolioId          String @unique
+
+  education Education[]
+  portfolio Portfolio?  @relation(fields: [portfolioId], references: [id])
+}
+
+model Education {
+  id                   String @id @default(uuid())
+  educationName        String
+  joiningDate          String
+  educationDescription String
+  educationSectionId   String
+
+  educationSection EducationSection @relation(fields: [educationSectionId], references: [id])
+}
