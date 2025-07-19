@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -9,16 +8,15 @@ datasource db {
 }
 
 model User {
-  id            String          @id             @default(cuid())
-  userName          String
-  userEmail         String          @unique
-  userPassword      String
-  userPortfolio     Portfolio? @relation("UserPortfolio") // no fields/references here
+  id            String     @id @default(cuid())
+  userName      String
+  userEmail     String     @unique
+  userPassword  String
+  userPortfolio Portfolio? @relation("UserPortfolio") // no fields/references here
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
 
 model Portfolio {
   id             String @id @default(uuid())
@@ -28,10 +26,10 @@ model Portfolio {
   userResumeLink String
   userEmail      String
   userGithubId   String
-  
-  views          Int    @default(0)
-  likes          Int    @default(0)
-  userId         String @unique
+
+  views  Int    @default(0)
+  likes  Int    @default(0)
+  userId String @unique
 
   user User @relation("UserPortfolio", fields: [userId], references: [id])
 
@@ -43,21 +41,19 @@ model Portfolio {
 }
 
 model AboutSection {
-  id               String @id @default(uuid())
-  aboutHeading     String
-  about            String
-  
+  id           String @id @default(uuid())
+  aboutHeading String
+  about        String
 
   portfolioId String?    @unique
   portfolio   Portfolio? @relation(fields: [portfolioId], references: [id])
 }
 
 model ProjectSection {
-  id                 String    @id @default(uuid())
-  projectHeading     String
-  projects           Project[]
-  portfolioId        String?   @unique
-  
+  id             String    @id @default(uuid())
+  projectHeading String
+  projects       Project[]
+  portfolioId    String?   @unique
 
   portfolio Portfolio? @relation(fields: [portfolioId], references: [id])
 }
@@ -80,12 +76,12 @@ model Project {
 }
 
 model SkillSection {
-  id               String  @id @default(uuid())
+  id               String @id @default(uuid())
   skillHeading     String
   skillDescription String
-  
-  skills           Skill[]
-  portfolioId      String  @unique
+
+  skills      Skill[]
+  portfolioId String  @unique
 
   portfolio Portfolio? @relation(fields: [portfolioId], references: [id])
 }
@@ -104,7 +100,6 @@ model ExperienceSection {
   experienceHeading     String
   experienceDescription String
   portfolioId           String @unique
-  
 
   experience Experience[]
   portfolio  Portfolio?   @relation(fields: [portfolioId], references: [id])
@@ -124,8 +119,8 @@ model EducationSection {
   id                   String @id @default(uuid())
   educationHeading     String
   educationDescription String
-  
-  portfolioId          String @unique
+
+  portfolioId String @unique
 
   education Education[]
   portfolio Portfolio?  @relation(fields: [portfolioId], references: [id])
