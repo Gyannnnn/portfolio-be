@@ -28,7 +28,7 @@ model Portfolio {
   userResumeLink String
   userEmail      String
   userGithubId   String
-  welcomeCode    String
+  
   views          Int    @default(0)
   likes          Int    @default(0)
   userId         String @unique
@@ -46,7 +46,7 @@ model AboutSection {
   id               String @id @default(uuid())
   aboutHeading     String
   about            String
-  AboutSectionCode String
+  
 
   portfolioId String?    @unique
   portfolio   Portfolio? @relation(fields: [portfolioId], references: [id])
@@ -57,7 +57,7 @@ model ProjectSection {
   projectHeading     String
   projects           Project[]
   portfolioId        String?   @unique
-  projectSectionCode String
+  
 
   portfolio Portfolio? @relation(fields: [portfolioId], references: [id])
 }
@@ -83,7 +83,7 @@ model SkillSection {
   id               String  @id @default(uuid())
   skillHeading     String
   skillDescription String
-  skillSectionCode String
+  
   skills           Skill[]
   portfolioId      String  @unique
 
@@ -104,7 +104,7 @@ model ExperienceSection {
   experienceHeading     String
   experienceDescription String
   portfolioId           String @unique
-  experienceSectionCode String
+  
 
   experience Experience[]
   portfolio  Portfolio?   @relation(fields: [portfolioId], references: [id])
@@ -124,7 +124,7 @@ model EducationSection {
   id                   String @id @default(uuid())
   educationHeading     String
   educationDescription String
-  educationSectionCode String
+  
   portfolioId          String @unique
 
   education Education[]
