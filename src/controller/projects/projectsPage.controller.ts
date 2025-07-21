@@ -45,7 +45,16 @@ export const createProjectPage = async (req: Request, res: Response) => {
 
 export const getProjectsPage = async (req: Request, res: Response) => {
   try {
-    const projectsPage = await prisma.projectSection.findFirst();
+    const projectsPage = await prisma.projectSection.findFirst({
+      where:{
+        portfolioId:"ba63f704-9383-406a-8bc6-2868431a9c42"
+      },
+      select:{
+        projects:true,
+        portfolioId:true,
+        projectHeading:true
+      }
+    });
     if (!projectsPage) {
       res.status(404).json({
         message: "No Projects page found !",

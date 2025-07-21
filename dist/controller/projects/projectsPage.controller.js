@@ -58,7 +58,16 @@ const createProjectPage = (req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.createProjectPage = createProjectPage;
 const getProjectsPage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const projectsPage = yield prisma.projectSection.findFirst();
+        const projectsPage = yield prisma.projectSection.findFirst({
+            where: {
+                portfolioId: "ba63f704-9383-406a-8bc6-2868431a9c42"
+            },
+            select: {
+                projects: true,
+                portfolioId: true,
+                projectHeading: true
+            }
+        });
         if (!projectsPage) {
             res.status(404).json({
                 message: "No Projects page found !",
