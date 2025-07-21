@@ -5,4 +5,6 @@ const projectPageRouter = (0, express_1.Router)();
 const projectsPage_controller_1 = require("../../controller/projects/projectsPage.controller");
 projectPageRouter.get("/", projectsPage_controller_1.getProjectsPage);
 projectPageRouter.post("/create", projectsPage_controller_1.createProjectPage);
+projectPageRouter.post("/project/create", projectsPage_controller_1.createProject);
+projectPageRouter.get("/project/:projectName", projectsPage_controller_1.getProjectByName);
 exports.default = projectPageRouter;
