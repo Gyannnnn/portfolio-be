@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import { strict } from "assert";
 
 export const signUp = async (request: Request, response: Response) => {
   try {
@@ -51,6 +51,13 @@ export const signUp = async (request: Request, response: Response) => {
     const token = jwt.sign({ userEmail, userName }, process.env.JWT_SECRET!, {
       expiresIn: "30days",
     });
+
+    response.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
     response.status(200).json({
       message: "User Created successfully",
       newUser: newUser,
@@ -64,7 +71,6 @@ export const signUp = async (request: Request, response: Response) => {
     });
   }
 };
-
 
 export const signIn = async (request: Request, response: Response) => {
   try {
@@ -84,14 +90,13 @@ export const signIn = async (request: Request, response: Response) => {
     if (!result.success) {
       response.status(400).json({
         message: "Validation failed",
-        errors: result.error
+        errors: result.error,
       });
-      return 
+      return;
     }
 
     const { userEmail, userPassword } = result.data;
 
-    
     const existingUser = await prisma.user.findUnique({
       where: { userEmail },
     });
@@ -100,30 +105,33 @@ export const signIn = async (request: Request, response: Response) => {
       response.status(404).json({
         message: "User not found",
       });
-      return 
+      return;
     }
 
-    
     const isPasswordValid = await bcrypt.compare(
       userPassword,
-      existingUser.userPassword 
+      existingUser.userPassword
     );
 
     if (!isPasswordValid) {
-     response.status(401).json({
+      response.status(401).json({
         message: "Invalid password",
       });
-       return 
+      return;
     }
 
-   
     const token = jwt.sign(
       { userId: existingUser.id, userEmail: existingUser.userEmail },
       process.env.JWT_SECRET!,
       { expiresIn: "30d" }
     );
 
-    
+    response.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
     return response.status(200).json({
       message: "Sign in successful",
       token,

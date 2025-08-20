@@ -61,6 +61,11 @@ const signUp = (request, response) => __awaiter(void 0, void 0, void 0, function
         const token = jsonwebtoken_1.default.sign({ userEmail, userName }, process.env.JWT_SECRET, {
             expiresIn: "30days",
         });
+        response.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
         response.status(200).json({
             message: "User Created successfully",
             newUser: newUser,
@@ -92,7 +97,7 @@ const signIn = (request, response) => __awaiter(void 0, void 0, void 0, function
         if (!result.success) {
             response.status(400).json({
                 message: "Validation failed",
-                errors: result.error
+                errors: result.error,
             });
             return;
         }
@@ -114,6 +119,11 @@ const signIn = (request, response) => __awaiter(void 0, void 0, void 0, function
             return;
         }
         const token = jsonwebtoken_1.default.sign({ userId: existingUser.id, userEmail: existingUser.userEmail }, process.env.JWT_SECRET, { expiresIn: "30d" });
+        response.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
         return response.status(200).json({
             message: "Sign in successful",
             token,
