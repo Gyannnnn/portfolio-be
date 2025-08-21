@@ -13,7 +13,11 @@ const intro_routes_1 = __importDefault(require("./Routes/introduction/intro.rout
 const aboutpage_routes_1 = __importDefault(require("./Routes/about/aboutpage.routes"));
 const projectsPage_routes_1 = __importDefault(require("./Routes/projects/projectsPage.routes"));
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "PUT", "DELETE", "POST"],
+    credentials: true,
+}));
 app.get("/", (req, res) => {
     res.status(200).json({
         message: "Welcome to my portfolio backend",

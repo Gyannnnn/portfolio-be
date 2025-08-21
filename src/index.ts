@@ -10,7 +10,14 @@ import introductionRouter from "./Routes/introduction/intro.routes";
 import aboutPageRouter from "./Routes/about/aboutpage.routes";
 import projectPageRouter from "./Routes/projects/projectsPage.routes";
 app.use(express.json());
-app.use(cors())
+
+
+app.use(cors({
+    origin:["http://localhost:3000"],
+    methods:["GET","PUT","DELETE","POST"],
+    credentials:true,
+}))
+
 
 
 app.get("/",(req,res)=>{
