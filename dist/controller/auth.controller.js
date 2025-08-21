@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signIn = exports.signUp = void 0;
+exports.me = exports.signIn = exports.signUp = void 0;
 const zod_1 = __importDefault(require("zod"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
@@ -143,3 +143,11 @@ const signIn = (request, response) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.signIn = signIn;
+const me = (req, res) => {
+    const user = req.user;
+    res.status(200).json({
+        message: "User fetched !",
+        user
+    });
+};
+exports.me = me;

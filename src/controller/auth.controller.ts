@@ -149,3 +149,13 @@ export const signIn = async (request: Request, response: Response) => {
     });
   }
 };
+
+
+
+export const me = (req:Request,res:Response)=>{
+  const user = req.user
+  res.status(200).json({
+    message:"User fetched !",
+    user
+  })
+};
