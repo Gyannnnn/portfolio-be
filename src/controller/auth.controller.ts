@@ -54,8 +54,8 @@ export const signUp = async (request: Request, response: Response) => {
 
     response.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: false,
+      sameSite: "none",
     });
 
     response.status(200).json({
@@ -73,6 +73,7 @@ export const signUp = async (request: Request, response: Response) => {
 };
 
 export const signIn = async (request: Request, response: Response) => {
+  
   try {
     // Define and validate schema
     const schema = z.object({
@@ -85,6 +86,7 @@ export const signIn = async (request: Request, response: Response) => {
             "Password must include uppercase, lowercase, number, and special character",
         }),
     });
+    
 
     const result = schema.safeParse(request.body);
     if (!result.success) {
@@ -126,11 +128,18 @@ export const signIn = async (request: Request, response: Response) => {
       { expiresIn: "30d" }
     );
 
-    response.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
+    // response.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "none",
+    // });
+
+    // response.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false, // HTTP in localhost
+    //   sameSite: "lax", // use "lax" for localhost
+    //   path: "/",
+    // });
 
     return response.status(200).json({
       message: "Sign in successful",
@@ -139,6 +148,7 @@ export const signIn = async (request: Request, response: Response) => {
         id: existingUser.id,
         userEmail: existingUser.userEmail,
         userName: existingUser.userName,
+        userRole:existingUser.role
       },
     });
   } catch (error) {
@@ -150,12 +160,10 @@ export const signIn = async (request: Request, response: Response) => {
   }
 };
 
-
-
-export const me = (req:Request,res:Response)=>{
-  const user = req.user
+export const me = (req: Request, res: Response) => {
+  const user = req.user;
   res.status(200).json({
-    message:"User fetched !",
-    user
-  })
+    message: "User fetched !",
+    user,
+  });
 };

@@ -16,10 +16,14 @@ exports.authMiddleware = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
+    console.log("Headers:", req.headers);
+    console.log("Cookies:", req.cookies.token);
+    console.log("Cookies from request:", req.cookies);
     const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.token;
+    console.log("The token is : " + token);
     if (!token) {
         res.status(401).json({
-            message: "Unauthorised access"
+            message: "Unauthorised access",
         });
         return;
     }
@@ -32,7 +36,7 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const err = error;
         res.status(500).json({
             messsage: "Internal server error",
-            message: err.message
+            message: err.message,
         });
     }
 });

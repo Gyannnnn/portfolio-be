@@ -2,7 +2,7 @@ require('dotenv').config()
 import express from "express";
 const app = express();
 import cors from "cors"
-
+import cookieParser from "cookie-parser";
 
 import authRouter from "./Routes/auth/user.auth";
 import portfolioRouter from "./Routes/portfolio/portfolio";
@@ -11,9 +11,11 @@ import aboutPageRouter from "./Routes/about/aboutpage.routes";
 import projectPageRouter from "./Routes/projects/projectsPage.routes";
 app.use(express.json());
 
+app.use(cookieParser());
+
 
 app.use(cors({
-    origin:["http://localhost:3000"],
+    origin:"http://localhost:3000",
     methods:["GET","PUT","DELETE","POST"],
     credentials:true,
 }))
