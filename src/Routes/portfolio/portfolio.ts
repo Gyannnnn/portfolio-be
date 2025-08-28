@@ -6,4 +6,5 @@ import { authMiddleware } from "../../middleware/auth.middleware";
 
 portfolioRouter.post("/create",authMiddleware, createPortfolio);
 
+
 export default portfolioRouter;

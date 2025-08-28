@@ -15,28 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authMiddleware = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    console.log("Headers:", req.headers);
-    console.log("Cookies:", req.cookies.token);
-    console.log("Cookies from request:", req.cookies);
-    const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.token;
-    console.log("The token is : " + token);
-    if (!token) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         res.status(401).json({
-            message: "Unauthorised access",
+            message: "Unauthorized access",
         });
         return;
     }
+    const token = authHeader.split(" ")[1];
     try {
-        const decodedToken = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-        req.user = decodedToken;
-        next();
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        if (decoded.role === "Admin") {
+            next();
+        }
+        return res.status(403).json({
+            message: "Forbidden: Visitors are not allowd",
+        });
     }
     catch (error) {
         const err = error;
-        res.status(500).json({
-            messsage: "Internal server error",
-            message: err.message,
+        res.status(403).json({
+            message: "Invalid or expired token",
+            error: err.message
         });
     }
 });

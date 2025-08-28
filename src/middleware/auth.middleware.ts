@@ -1,32 +1,32 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log("Headers:", req.headers);
-  console.log("Cookies:", req.cookies.token);
-  console.log("Cookies from request:", req.cookies);
-
-  const token = req.cookies?.token;
-  console.log("The token is : " + token);
-  if (!token) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res.status(401).json({
-      message: "Unauthorised access",
+      message: "Unauthorized access",
     });
     return;
   }
+  const token = authHeader.split(" ")[1];
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-    req.user = decodedToken;
-    next();
+    const decoded = jwt.verify(token,process.env.JWT_SECRET!) as JwtPayload;
+    if(decoded.role === "Admin"){
+      next();
+    }
+    return res.status(403).json({
+      message: "Forbidden: Visitors are not allowd",
+    });
   } catch (error) {
     const err = error as Error;
-    res.status(500).json({
-      messsage: "Internal server error",
-      message: err.message,
-    });
+    res.status(403).json({
+      message: "Invalid or expired token",
+      error:err.message
+    })
   }
 };
