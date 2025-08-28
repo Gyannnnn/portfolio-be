@@ -23,8 +23,10 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         return;
     }
     const token = authHeader.split(" ")[1];
+    console.log(token);
     try {
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        console.log(decoded.role);
         if (decoded.role === "Admin") {
             next();
         }

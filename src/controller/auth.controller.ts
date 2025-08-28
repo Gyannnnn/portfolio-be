@@ -123,7 +123,7 @@ export const signIn = async (request: Request, response: Response) => {
     }
 
     const token = jwt.sign(
-      { userId: existingUser.id, userEmail: existingUser.userEmail },
+      { userId: existingUser.id, userEmail: existingUser.userEmail,role:existingUser.role },
       process.env.JWT_SECRET!,
       { expiresIn: "30d" }
     );
@@ -140,6 +140,7 @@ export const signIn = async (request: Request, response: Response) => {
     //   sameSite: "lax", // use "lax" for localhost
     //   path: "/",
     // });
+    
 
     return response.status(200).json({
       message: "Sign in successful",

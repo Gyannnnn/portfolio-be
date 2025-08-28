@@ -118,7 +118,7 @@ const signIn = (request, response) => __awaiter(void 0, void 0, void 0, function
             });
             return;
         }
-        const token = jsonwebtoken_1.default.sign({ userId: existingUser.id, userEmail: existingUser.userEmail }, process.env.JWT_SECRET, { expiresIn: "30d" });
+        const token = jsonwebtoken_1.default.sign({ userId: existingUser.id, userEmail: existingUser.userEmail, role: existingUser.role }, process.env.JWT_SECRET, { expiresIn: "30d" });
         // response.cookie("token", token, {
         //   httpOnly: true,
         //   secure: false,
