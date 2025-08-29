@@ -6,7 +6,7 @@ const aboutPageRouter = Router();
 
 aboutPageRouter.post("/create",authMiddleware,createAboutpage);
 aboutPageRouter.get("/",getAboutPage);
-aboutPageRouter.put("/update",updateAbout);
+aboutPageRouter.put("/update",authMiddleware,updateAbout);
 
 
 

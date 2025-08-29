@@ -6,5 +6,5 @@ const auth_middleware_1 = require("../../middleware/auth.middleware");
 const aboutPageRouter = (0, express_1.Router)();
 aboutPageRouter.post("/create", auth_middleware_1.authMiddleware, aboutpage_controller_1.createAboutpage);
 aboutPageRouter.get("/", aboutpage_controller_1.getAboutPage);
-aboutPageRouter.put("/update", aboutpage_controller_1.updateAbout);
+aboutPageRouter.put("/update", auth_middleware_1.authMiddleware, aboutpage_controller_1.updateAbout);
 exports.default = aboutPageRouter;
