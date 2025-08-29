@@ -37,7 +37,7 @@ const getIntro = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getIntro = getIntro;
 const updateIntro = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId, userHeading, userBio, userResumeLink, userEmail, userGithubId, } = req.body;
+        const { userHeading, userBio, userResumeLink, userEmail, userGithubId } = req.body;
         const updateData = {};
         if (userHeading !== undefined)
             updateData.userHeading = userHeading;
@@ -51,26 +51,28 @@ const updateIntro = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             updateData.userGithubId = userGithubId;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({
-                message: "No fields to update !"
+                message: "No fields to update !",
             });
             return;
         }
         const updatedIntro = yield prisma.portfolio.update({
             where: {
-                userId
+                id: "ba63f704-9383-406a-8bc6-2868431a9c42",
             },
-            data: updateData
+            data: updateData,
         });
+        console.log(exports.updateIntro);
         res.status(200).json({
             message: "Portfolio updated successfully",
-            updatedIntro
+            updatedIntro,
         });
     }
     catch (error) {
+        console.log(error);
         const err = error;
         res.status(500).json({
             message: "Internal server error",
-            error: err.message
+            error: err.message,
         });
     }
 });

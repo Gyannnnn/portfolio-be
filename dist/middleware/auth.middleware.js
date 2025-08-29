@@ -28,17 +28,22 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         console.log(decoded.role);
         if (decoded.role === "Admin") {
+            console.log(" hhhhhhhhhhhhhhhhhhh");
             next();
         }
-        return res.status(403).json({
-            message: "Forbidden: Visitors are not allowd",
-        });
+        else {
+            console.log("iojsbedfigblhuifedglhjb");
+            res.status(403).json({
+                message: "Forbidden: Visitors are not allowd",
+            });
+            return;
+        }
     }
     catch (error) {
         const err = error;
         res.status(403).json({
             message: "Invalid or expired token",
-            error: err.message
+            error: err.message,
         });
     }
 });

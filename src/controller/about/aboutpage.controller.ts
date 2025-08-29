@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import z from "zod";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+const protfolioId = process.env.PF_ID!
 
 export const createAboutpage = async (req: Request, res: Response) => {
   try {
@@ -24,45 +25,82 @@ export const createAboutpage = async (req: Request, res: Response) => {
         about,
       },
     });
-    if(!response){
-        res.status(400).json({
-            message: "Something went wrong"
-        });
-        return
+    if (!response) {
+      res.status(400).json({
+        message: "Something went wrong",
+      });
+      return;
     }
     res.status(200).json({
-        message: "ABout Section created successfully",
-        response
-    })
+      message: "ABout Section created successfully",
+      response,
+    });
   } catch (error) {
-    const err = error as Error
+    const err = error as Error;
     res.status(500).json({
-        message: "Internal server error",
-        error:err.message
-    })
+      message: "Internal server error",
+      error: err.message,
+    });
   }
 };
 
-
-export const getAboutPage = async(req:Request,res:Response)=>{
-    try {
-        const aboutPage = await prisma.aboutSection.findFirst()
-        console.log(aboutPage);
-        if(!aboutPage){
-            res.status(400).json({
-                message: "Something went wrong"
-            });
-            return
-        }
-        res.status(200).json({
-            message: "About page fetched succesfully",
-            aboutPage
-        })
-    } catch (error) {
-        const err = error as Error
-        res.status(500).json({
-            message:"Internal server error",
-            error:err.message
-        })
+export const getAboutPage = async (req: Request, res: Response) => {
+  try {
+    const aboutPage = await prisma.aboutSection.findFirst();
+    console.log(aboutPage);
+    if (!aboutPage) {
+      res.status(400).json({
+        message: "Something went wrong",
+      });
+      return;
     }
-}
+    res.status(200).json({
+      message: "About page fetched succesfully",
+      aboutPage,
+    });
+  } catch (error) {
+    const err = error as Error;
+    res.status(500).json({
+      message: "Internal server error",
+      error: err.message,
+    });
+  }
+};
+
+export const updateAbout = async (req: Request, res: Response) => {
+  const { aboutHeading, about } = req.body;
+  try {
+    const updateData: any = {}
+
+    if(aboutHeading !== undefined) updateData.heading = aboutHeading;
+    if(about !== undefined) updateData.about = about
+
+    if(Object.keys(updateData).length === 0){
+      res.status(400).json({
+        message: "No fields to update"
+      });
+      return
+    }
+    const response = await prisma.aboutSection.update({
+      where:{
+        id:protfolioId
+      },
+      data:updateData
+    });
+    if(!response){
+      res.status(400).json({
+        message: "Failed to update aboout section"
+      });
+      return
+    }
+    res.status(200).json({
+      message: "Aboout section updated",
+      response
+    });
+  } catch (error) {
+    res.status(500).json({
+      messaeg: "Internal server error",
+      error
+    })    
+  }
+};

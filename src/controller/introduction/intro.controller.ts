@@ -26,47 +26,43 @@ export const getIntro = async (req: Request, res: Response) => {
 
 export const updateIntro = async (req: Request, res: Response) => {
   try {
-    const {
-      userId,
-      userHeading,
-      userBio,
-      userResumeLink,
-      userEmail,
-      userGithubId,
-    } = req.body;
+    const { userHeading, userBio, userResumeLink, userEmail, userGithubId } =
+      req.body;
 
     const updateData: any = {};
 
-    if(userHeading !== undefined) updateData.userHeading = userHeading;
-    if(userBio !== undefined) updateData.userBio = userBio;
-    if(userResumeLink !== undefined) updateData.userResumeLink = userResumeLink;
-    if(userEmail !== undefined) updateData.userEmail = userEmail;
-    if(userGithubId !== undefined) updateData.userGithubId = userGithubId;
+    if (userHeading !== undefined) updateData.userHeading = userHeading;
+    if (userBio !== undefined) updateData.userBio = userBio;
+    if (userResumeLink !== undefined)
+      updateData.userResumeLink = userResumeLink;
+    if (userEmail !== undefined) updateData.userEmail = userEmail;
+    if (userGithubId !== undefined) updateData.userGithubId = userGithubId;
 
-    if(Object.keys(updateData).length === 0){
+    if (Object.keys(updateData).length === 0) {
       res.status(400).json({
-        message: "No fields to update !"
+        message: "No fields to update !",
       });
       return;
     }
 
     const updatedIntro = await prisma.portfolio.update({
-      where:{
-        userId
+      where: {
+        id: "ba63f704-9383-406a-8bc6-2868431a9c42",
       },
-      data:updateData
-    })
+      data: updateData,
+    });
+    console.log(updateIntro);
 
     res.status(200).json({
       message: "Portfolio updated successfully",
-      updatedIntro
-    })
-
+      updatedIntro,
+    });
   } catch (error) {
+    console.log(error);
     const err = error as Error;
     res.status(500).json({
       message: "Internal server error",
-      error:err.message
-    })
+      error: err.message,
+    });
   }
 };
