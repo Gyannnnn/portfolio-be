@@ -72,7 +72,7 @@ export const updateAbout = async (req: Request, res: Response) => {
   try {
     const updateData: any = {}
 
-    if(aboutHeading !== undefined) updateData.heading = aboutHeading;
+    if(aboutHeading !== undefined) updateData.aboutHeading = aboutHeading;
     if(about !== undefined) updateData.about = about
 
     if(Object.keys(updateData).length === 0){
@@ -81,9 +81,10 @@ export const updateAbout = async (req: Request, res: Response) => {
       });
       return
     }
+    console.log("Portfolio ID:",protfolioId)
     const response = await prisma.aboutSection.update({
       where:{
-        id:protfolioId
+        portfolioId:protfolioId
       },
       data:updateData
     });
@@ -102,5 +103,6 @@ export const updateAbout = async (req: Request, res: Response) => {
       messaeg: "Internal server error",
       error
     })    
+    console.log(error);
   }
 };

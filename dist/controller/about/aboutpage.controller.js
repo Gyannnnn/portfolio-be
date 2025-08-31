@@ -86,7 +86,7 @@ const updateAbout = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const updateData = {};
         if (aboutHeading !== undefined)
-            updateData.heading = aboutHeading;
+            updateData.aboutHeading = aboutHeading;
         if (about !== undefined)
             updateData.about = about;
         if (Object.keys(updateData).length === 0) {
@@ -95,9 +95,10 @@ const updateAbout = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             });
             return;
         }
+        console.log("Portfolio ID:", protfolioId);
         const response = yield prisma.aboutSection.update({
             where: {
-                id: protfolioId
+                portfolioId: protfolioId
             },
             data: updateData
         });
@@ -117,6 +118,7 @@ const updateAbout = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             messaeg: "Internal server error",
             error
         });
+        console.log(error);
     }
 });
 exports.updateAbout = updateAbout;

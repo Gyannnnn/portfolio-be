@@ -25,6 +25,7 @@ export const signUp = async (request: Request, response: Response) => {
         message: results.error,
       });
       return;
+      
     }
     const { userEmail, userPassword, userName } = results.data;
     const hashedUserPassword = bcrypt.hashSync(userPassword, 10);

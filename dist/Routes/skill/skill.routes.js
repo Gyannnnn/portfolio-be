@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const skillRouter = (0, express_1.Router)();
+const skill_controller_1 = require("../../controller/skill/skill.controller");
+const auth_middleware_1 = require("../../middleware/auth.middleware");
+skillRouter.get("/get", skill_controller_1.getSkillSection);
+skillRouter.post("/create", auth_middleware_1.authMiddleware, skill_controller_1.createSkillSection);
+skillRouter.put("/update", auth_middleware_1.authMiddleware, skill_controller_1.updateSkillSection);
+skillRouter.post("/add-skill", auth_middleware_1.authMiddleware, skill_controller_1.addNewSkill);
+skillRouter.delete("/delete-skill", auth_middleware_1.authMiddleware, skill_controller_1.deleteSkill);
+exports.default = skillRouter;

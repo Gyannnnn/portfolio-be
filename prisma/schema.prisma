@@ -95,7 +95,7 @@ model SkillSection {
 model Skill {
   id             String       @id @default(uuid())
   skillIcon      String
-  skillName      String
+  skillName      String     @unique
   skillIconColor String
   skillSectionId String
   skillsection   SkillSection @relation(fields: [skillSectionId], references: [id])
