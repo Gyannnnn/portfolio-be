@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSkill = exports.addNewSkill = exports.updateSkillSection = exports.createSkillSection = exports.getSkillSection = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
+const portfolioId = process.env.PF_ID;
 const getSkillSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const skillSection = yield prisma.skillSection.findFirst();
@@ -35,13 +36,14 @@ const getSkillSection = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.getSkillSection = getSkillSection;
 const createSkillSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { skillHeading, skillDescription, portfolioId } = req.body;
-    if (!skillDescription.trim() || !skillHeading.trim() || !portfolioId.trim()) {
+    const { skillHeading, skillDescription } = req.body;
+    if (!skillDescription.trim() || !skillHeading.trim()) {
         res.status(400).json({
             message: "All fields are required",
         });
         return;
     }
+    console.log(portfolioId);
     try {
         const response = yield prisma.skillSection.create({
             data: {

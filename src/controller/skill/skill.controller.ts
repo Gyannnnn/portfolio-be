@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+const portfolioId = process.env.PF_ID
 
 export const getSkillSection = async (req: Request, res: Response) => {
   try {
@@ -24,14 +25,15 @@ export const getSkillSection = async (req: Request, res: Response) => {
 };
 
 export const createSkillSection = async (req: Request, res: Response) => {
-  const { skillHeading, skillDescription, portfolioId } = req.body;
+  const { skillHeading, skillDescription } = req.body;
 
-  if (!skillDescription.trim() || !skillHeading.trim() || !portfolioId.trim()) {
+  if (!skillDescription.trim() || !skillHeading.trim()) {
     res.status(400).json({
       message: "All fields are required",
     });
     return;
   }
+  console.log(portfolioId);
   try {
     const response = await prisma.skillSection.create({
       data: {
