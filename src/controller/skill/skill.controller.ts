@@ -1,11 +1,19 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-const portfolioId = process.env.PF_ID
+const portfolioId = process.env.PF_ID;
 
 export const getSkillSection = async (req: Request, res: Response) => {
   try {
-    const skillSection = await prisma.skillSection.findFirst();
+    const skillSection = await prisma.skillSection.findFirst({
+      select: {
+        id: true,
+        skillHeading: true,
+        skillDescription: true,
+        skills: true,
+        portfolioId: true,
+      },
+    });
     if (!skillSection) {
       res.status(400).json({
         message: "No skill section found",
@@ -136,106 +144,33 @@ export const addNewSkill = async (req: Request, res: Response) => {
   }
 };
 
-
-export const deleteSkill = async(req: Request, res: Response)=>{
-    const{skillName} = req.body();
-    if(!skillName.trim()){
-        res.status(400).json({
-            message: "All fields are required"
-        });
-        return
+export const deleteSkill = async (req: Request, res: Response) => {
+  const { skillName } = req.body();
+  if (!skillName.trim()) {
+    res.status(400).json({
+      message: "All fields are required",
+    });
+    return;
+  }
+  try {
+    const response = await prisma.skill.delete({
+      where: {
+        skillName,
+      },
+    });
+    if (!response) {
+      res.status(400).json({
+        message: "Failed to update",
+      });
+      return;
     }
-    try {
-        const response = await prisma.skill.delete({
-            where:{
-                skillName
-            }
-        })
-        if(!response){
-            res.status(400).json({
-                message : "Failed to update"
-            });
-            return
-        }
-        res.status(200).json({
-            message :`Successfully deleted ${skillName} skill`
-        })
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal server error",
-            error
-        })
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    res.status(200).json({
+      message: `Successfully deleted ${skillName} skill`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error,
+    });
+  }
+};

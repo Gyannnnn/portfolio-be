@@ -15,7 +15,15 @@ const prisma = new client_1.PrismaClient();
 const portfolioId = process.env.PF_ID;
 const getSkillSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const skillSection = yield prisma.skillSection.findFirst();
+        const skillSection = yield prisma.skillSection.findFirst({
+            select: {
+                id: true,
+                skillHeading: true,
+                skillDescription: true,
+                skills: true,
+                portfolioId: true,
+            },
+        });
         if (!skillSection) {
             res.status(400).json({
                 message: "No skill section found",
@@ -152,30 +160,30 @@ const deleteSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { skillName } = req.body();
     if (!skillName.trim()) {
         res.status(400).json({
-            message: "All fields are required"
+            message: "All fields are required",
         });
         return;
     }
     try {
         const response = yield prisma.skill.delete({
             where: {
-                skillName
-            }
+                skillName,
+            },
         });
         if (!response) {
             res.status(400).json({
-                message: "Failed to update"
+                message: "Failed to update",
             });
             return;
         }
         res.status(200).json({
-            message: `Successfully deleted ${skillName} skill`
+            message: `Successfully deleted ${skillName} skill`,
         });
     }
     catch (error) {
         res.status(500).json({
             message: "Internal server error",
-            error
+            error,
         });
     }
 });
