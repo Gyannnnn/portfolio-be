@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:["http://localhost:3000","https://portfolio-be-flame.vercel.app/"],
     methods:["GET","PUT","DELETE","POST"],
     credentials:true,
 }))
