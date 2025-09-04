@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const experience_controller_1 = require("../../controller/experience/experience.controller");
+const auth_middleware_1 = require("../../middleware/auth.middleware");
+const experienceRouter = (0, express_1.Router)();
+experienceRouter.post("/create", auth_middleware_1.authMiddleware, experience_controller_1.createExperienceSection);
+experienceRouter.get("/get", experience_controller_1.getExperienceSection);
+experienceRouter.post("/add-exp", auth_middleware_1.authMiddleware, experience_controller_1.addNewExperience);
+experienceRouter.put("/update", auth_middleware_1.authMiddleware, experience_controller_1.updateExperienceSection);
+exports.default = experienceRouter;

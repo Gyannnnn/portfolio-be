@@ -27,6 +27,7 @@ export const createExperienceSection = async (req: Request, res: Response) => {
     }
     res.status(201).json({
       message: "Experience section created successfully",
+      expSection,
     });
   } catch (error) {
     console.log(error);
@@ -43,6 +44,13 @@ export const getExperienceSection = async (req: Request, res: Response) => {
       where: {
         portfolioId,
       },
+      select: {
+        id: true,
+        experienceHeading: true,
+        experienceDescription: true,
+        portfolioId: true,
+        experience: true,
+      },
     });
 
     if (!experienceSection) {
@@ -53,6 +61,7 @@ export const getExperienceSection = async (req: Request, res: Response) => {
     }
     res.status(200).json({
       message: "Experience section fetched",
+      experienceSection,
     });
   } catch (error) {
     console.log(error);
