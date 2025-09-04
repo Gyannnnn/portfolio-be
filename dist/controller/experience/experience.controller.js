@@ -99,7 +99,7 @@ const updateExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, 
         }
         const updatedExperienceSection = yield prisma.experienceSection.update({
             where: {
-                id: "ba63f704-9383-406a-8bc6-2868431a9c42",
+                portfolioId
             },
             data: updateData,
         });

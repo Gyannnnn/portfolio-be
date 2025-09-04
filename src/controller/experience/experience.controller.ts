@@ -92,7 +92,7 @@ export const updateExperienceSection = async (req: Request, res: Response) => {
 
     const updatedExperienceSection = await prisma.experienceSection.update({
       where: {
-        id: "ba63f704-9383-406a-8bc6-2868431a9c42",
+        portfolioId
       },
       data: updateData,
     });
