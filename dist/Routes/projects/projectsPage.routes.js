@@ -8,5 +8,5 @@ projectPageRouter.get("/", projectsPage_controller_1.getProjectsPage);
 projectPageRouter.post("/create", auth_middleware_1.authMiddleware, projectsPage_controller_1.createProjectPage);
 projectPageRouter.post("/project/create", auth_middleware_1.authMiddleware, projectsPage_controller_1.createProject);
 projectPageRouter.get("/project/:projectName", projectsPage_controller_1.getProjectByName);
-projectPageRouter.get("/project/update", auth_middleware_1.authMiddleware, projectsPage_controller_1.updateProject);
+projectPageRouter.put("/project/update", auth_middleware_1.authMiddleware, projectsPage_controller_1.updateProject);
 exports.default = projectPageRouter;

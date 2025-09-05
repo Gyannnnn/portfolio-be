@@ -4,6 +4,7 @@ import { authMiddleware } from "../../middleware/auth.middleware";
 const aboutPageRouter = Router();
 
 
+
 aboutPageRouter.post("/create",authMiddleware,createAboutpage);
 aboutPageRouter.get("/",getAboutPage);
 aboutPageRouter.put("/update",authMiddleware,updateAbout);

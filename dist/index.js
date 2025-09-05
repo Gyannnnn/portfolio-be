@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require('dotenv').config();
+require("dotenv").config();
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const cors_1 = __importDefault(require("cors"));
@@ -16,6 +16,7 @@ const projectsPage_routes_1 = __importDefault(require("./Routes/projects/project
 const skill_routes_1 = __importDefault(require("./Routes/skill/skill.routes"));
 const experience_routes_1 = __importDefault(require("./Routes/experience/experience.routes"));
 const education_routes_1 = __importDefault(require("./Routes/education/education.routes"));
+const visitor_middleware_1 = require("./middleware/visitor.middleware");
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
@@ -23,10 +24,11 @@ app.use((0, cors_1.default)({
     methods: ["GET", "PUT", "DELETE", "POST"],
     credentials: true,
 }));
+app.use(visitor_middleware_1.visitorCountMiddleware);
 app.get("/", (req, res) => {
     res.status(200).json({
         message: "Welcome to my portfolio backend",
-        developer: "@gyanpatra.dev"
+        developer: "@gyanpatra.dev",
     });
 });
 app.use("/api/v1/auth", user_auth_1.default);
