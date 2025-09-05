@@ -11,6 +11,7 @@ import aboutPageRouter from "./Routes/about/aboutpage.routes";
 import projectPageRouter from "./Routes/projects/projectsPage.routes";
 import skillRouter from "./Routes/skill/skill.routes";
 import experienceRouter from "./Routes/experience/experience.routes";
+import educationRouter from "./Routes/education/education.routes";
 
 app.use(express.json());
 
@@ -38,7 +39,8 @@ app.use("/api/v1/intro",introductionRouter);
 app.use("/api/v1/about",aboutPageRouter);
 app.use("/api/v1/projects",projectPageRouter);
 app.use("/api/v1/skillsection",skillRouter);
-app.use("/api/v1/experience",experienceRouter)
+app.use("/api/v1/experience",experienceRouter);
+app.use("/api/v1/education",educationRouter);
 
 
 

@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { strict } from "assert";
+
 
 export const signUp = async (request: Request, response: Response) => {
   try {

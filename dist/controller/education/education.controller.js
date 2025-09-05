@@ -9,35 +9,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewExperience = exports.updateExperienceSection = exports.getExperienceSection = exports.createExperienceSection = void 0;
+exports.addNewEducation = exports.updateEducationSection = exports.getEducationSection = exports.createEducationSection = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const portfolioId = process.env.PF_ID;
-const createExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { experienceHeading, experienceDescription } = req.body;
-    if (!experienceHeading.trim() || !experienceDescription.trim()) {
+const createEducationSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { educationHeading, educationDescription } = req.body;
+    if (!educationHeading.trim() || !educationHeading.trim()) {
         res.status(400).json({
             message: "All fields are required",
         });
         return;
     }
     try {
-        const expSection = yield prisma.experienceSection.create({
+        const eduSection = yield prisma.educationSection.create({
             data: {
-                experienceDescription,
-                experienceHeading,
+                educationHeading,
+                educationDescription,
                 portfolioId,
             },
         });
-        if (!expSection) {
+        if (!eduSection) {
             res.status(400).json({
-                message: "Failed to create experience section",
+                message: "Failed to create education section",
             });
             return;
         }
         res.status(201).json({
-            message: "Experience section created successfully",
-            expSection,
+            message: "Education section created successfully",
+            eduSection,
         });
     }
     catch (error) {
@@ -48,30 +48,30 @@ const createExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
 });
-exports.createExperienceSection = createExperienceSection;
-const getExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createEducationSection = createEducationSection;
+const getEducationSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const experienceSection = yield prisma.experienceSection.findFirst({
+        const educationSection = yield prisma.educationSection.findFirst({
             where: {
                 portfolioId,
             },
             select: {
                 id: true,
-                experienceHeading: true,
-                experienceDescription: true,
+                educationHeading: true,
+                educationDescription: true,
                 portfolioId: true,
-                experience: true,
+                education: true,
             },
         });
-        if (!experienceSection) {
+        if (!educationSection) {
             res.status(400).json({
-                message: "Failed to fetch experience section",
+                message: "Failed to fetch education section",
             });
             return;
         }
         res.status(200).json({
-            message: "Experience section fetched",
-            experienceSection,
+            message: "Education section fetched",
+            educationSection,
         });
     }
     catch (error) {
@@ -82,10 +82,10 @@ const getExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 });
-exports.getExperienceSection = getExperienceSection;
-const updateExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getEducationSection = getEducationSection;
+const updateEducationSection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { experienceHeading, experienceDescription, portfolioId } = req.body;
+        const { educationHeading, educationDescription, portfolioId } = req.body;
         if (!portfolioId.trim()) {
             res.status(400).json({
                 message: "Portfolio id required",
@@ -93,25 +93,30 @@ const updateExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, 
             return;
         }
         const updateData = {};
-        if (experienceHeading !== undefined)
-            updateData.experienceHeading = experienceHeading;
-        if (experienceDescription !== undefined)
-            updateData.experienceDescription = experienceDescription;
+        if (educationHeading !== undefined)
+            updateData.educationHeading = educationHeading;
+        if (educationDescription !== undefined)
+            updateData.educationDescription = educationDescription;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({
                 message: "No fields to update !",
             });
             return;
         }
-        const updatedExperienceSection = yield prisma.experienceSection.update({
+        const updatedEducationSection = yield prisma.educationSection.update({
             where: {
                 portfolioId,
             },
             data: updateData,
         });
+        if (!updatedEducationSection) {
+            res.status(400).json({
+                message: "Failed to update education section"
+            });
+        }
         res.status(200).json({
-            message: "Experience section updated successfully",
-            updatedExperienceSection,
+            message: "Education section updated successfully",
+            updatedEducationSection,
         });
     }
     catch (error) {
@@ -123,35 +128,35 @@ const updateExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
 });
-exports.updateExperienceSection = updateExperienceSection;
-const addNewExperience = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { experienceName, joiningDate, experienceDescription, experienceSectionId, } = req.body;
-    if (!experienceName.trim() ||
+exports.updateEducationSection = updateEducationSection;
+const addNewEducation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { educationName, joiningDate, educationDescription, educationSectionId, } = req.body;
+    if (!educationName.trim() ||
         !joiningDate.trim() ||
-        !experienceDescription.trim() ||
-        !experienceSectionId.trim()) {
+        !educationDescription.trim() ||
+        !educationSectionId.trim()) {
         res.status(400).json({
             message: "All fields are required",
         });
         return;
     }
     try {
-        const response = yield prisma.experience.create({
+        const response = yield prisma.education.create({
             data: {
-                experienceName,
+                educationName,
                 joiningDate,
-                experienceDescription,
-                experienceSectionId,
+                educationDescription,
+                educationSectionId,
             },
         });
         if (!response) {
             res.status(400).json({
-                message: "Failed to Add new experience",
+                message: "Failed to Add new education",
             });
             return;
         }
         res.status(200).json({
-            message: "New experience added successfully",
+            message: "New education added successfully",
             response,
         });
     }
@@ -162,4 +167,4 @@ const addNewExperience = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
-exports.addNewExperience = addNewExperience;
+exports.addNewEducation = addNewEducation;

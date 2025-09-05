@@ -15,6 +15,7 @@ const aboutpage_routes_1 = __importDefault(require("./Routes/about/aboutpage.rou
 const projectsPage_routes_1 = __importDefault(require("./Routes/projects/projectsPage.routes"));
 const skill_routes_1 = __importDefault(require("./Routes/skill/skill.routes"));
 const experience_routes_1 = __importDefault(require("./Routes/experience/experience.routes"));
+const education_routes_1 = __importDefault(require("./Routes/education/education.routes"));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
@@ -35,6 +36,7 @@ app.use("/api/v1/about", aboutpage_routes_1.default);
 app.use("/api/v1/projects", projectsPage_routes_1.default);
 app.use("/api/v1/skillsection", skill_routes_1.default);
 app.use("/api/v1/experience", experience_routes_1.default);
+app.use("/api/v1/education", education_routes_1.default);
 console.log(process.env.PORT);
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running at http://localhost:${process.env.PORT || 3000}`);

@@ -3,31 +3,31 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const portfolioId = process.env.PF_ID;
 
-export const createExperienceSection = async (req: Request, res: Response) => {
-  const { experienceHeading, experienceDescription } = req.body;
-  if (!experienceHeading.trim() || !experienceDescription.trim()) {
+export const createEducationSection = async (req: Request, res: Response) => {
+  const { educationHeading, educationDescription } = req.body;
+  if (!educationHeading.trim() || !educationHeading.trim()) {
     res.status(400).json({
       message: "All fields are required",
     });
     return;
   }
   try {
-    const expSection = await prisma.experienceSection.create({
+    const eduSection = await prisma.educationSection.create({
       data: {
-        experienceDescription,
-        experienceHeading,
+        educationHeading,
+        educationDescription,
         portfolioId,
       },
     });
-    if (!expSection) {
+    if (!eduSection) {
       res.status(400).json({
-        message: "Failed to create experience section",
+        message: "Failed to create education section",
       });
       return;
     }
     res.status(201).json({
-      message: "Experience section created successfully",
-      expSection,
+      message: "Education section created successfully",
+      eduSection,
     });
   } catch (error) {
     console.log(error);
@@ -38,30 +38,30 @@ export const createExperienceSection = async (req: Request, res: Response) => {
   }
 };
 
-export const getExperienceSection = async (req: Request, res: Response) => {
+export const getEducationSection = async (req: Request, res: Response) => {
   try {
-    const experienceSection = await prisma.experienceSection.findFirst({
+    const educationSection = await prisma.educationSection.findFirst({
       where: {
         portfolioId,
       },
       select: {
         id: true,
-        experienceHeading: true,
-        experienceDescription: true,
+        educationHeading: true,
+        educationDescription: true,
         portfolioId: true,
-        experience: true,
+        education: true,
       },
     });
 
-    if (!experienceSection) {
+    if (!educationSection) {
       res.status(400).json({
-        message: "Failed to fetch experience section",
+        message: "Failed to fetch education section",
       });
       return;
     }
     res.status(200).json({
-      message: "Experience section fetched",
-      experienceSection,
+      message: "Education section fetched",
+      educationSection,
     });
   } catch (error) {
     console.log(error);
@@ -72,9 +72,9 @@ export const getExperienceSection = async (req: Request, res: Response) => {
   }
 };
 
-export const updateExperienceSection = async (req: Request, res: Response) => {
+export const updateEducationSection = async (req: Request, res: Response) => {
   try {
-    const { experienceHeading, experienceDescription, portfolioId } = req.body;
+    const { educationHeading, educationDescription, portfolioId } = req.body;
     if (!portfolioId.trim()) {
       res.status(400).json({
         message: "Portfolio id required",
@@ -84,10 +84,10 @@ export const updateExperienceSection = async (req: Request, res: Response) => {
 
     const updateData: any = {};
 
-    if (experienceHeading !== undefined)
-      updateData.experienceHeading = experienceHeading;
-    if (experienceDescription !== undefined)
-      updateData.experienceDescription = experienceDescription;
+    if (educationHeading !== undefined)
+      updateData.educationHeading = educationHeading;
+    if (educationDescription !== undefined)
+      updateData.educationDescription = educationDescription;
 
     if (Object.keys(updateData).length === 0) {
       res.status(400).json({
@@ -96,16 +96,22 @@ export const updateExperienceSection = async (req: Request, res: Response) => {
       return;
     }
 
-    const updatedExperienceSection = await prisma.experienceSection.update({
+    const updatedEducationSection = await prisma.educationSection.update({
       where: {
         portfolioId,
       },
       data: updateData,
     });
 
+    if(!updatedEducationSection){
+        res.status(400).json({
+            message: "Failed to update education section"
+        })
+    }
+
     res.status(200).json({
-      message: "Experience section updated successfully",
-      updatedExperienceSection,
+      message: "Education section updated successfully",
+      updatedEducationSection,
     });
   } catch (error) {
     console.log(error);
@@ -117,18 +123,18 @@ export const updateExperienceSection = async (req: Request, res: Response) => {
   }
 };
 
-export const addNewExperience = async (req: Request, res: Response) => {
+export const addNewEducation = async (req: Request, res: Response) => {
   const {
-    experienceName,
+    educationName,
     joiningDate,
-    experienceDescription,
-    experienceSectionId,
+    educationDescription,
+    educationSectionId,
   } = req.body;
   if (
-    !experienceName.trim() ||
+    !educationName.trim() ||
     !joiningDate.trim() ||
-    !experienceDescription.trim() ||
-    !experienceSectionId.trim()
+    !educationDescription.trim() ||
+    !educationSectionId.trim()
   ) {
     res.status(400).json({
       message: "All fields are required",
@@ -136,22 +142,22 @@ export const addNewExperience = async (req: Request, res: Response) => {
     return;
   }
   try {
-    const response = await prisma.experience.create({
+    const response = await prisma.education.create({
       data: {
-        experienceName,
+        educationName,
         joiningDate,
-        experienceDescription,
-        experienceSectionId,
+        educationDescription,
+        educationSectionId,
       },
     });
     if (!response) {
       res.status(400).json({
-        message: "Failed to Add new experience",
+        message: "Failed to Add new education",
       });
       return;
     }
     res.status(200).json({
-      message: "New experience added successfully",
+      message: "New education added successfully",
       response,
     });
   } catch (error) {
