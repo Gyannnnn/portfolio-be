@@ -177,3 +177,55 @@ export const getProjectByName = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateProject = async (req: Request, res: Response) => {
+  try {
+    const { id, projectName, projectDescription, githubLink, deployedLink } =
+      req.body;
+    if (!id.trim()) {
+      res.status(400).json({
+        message: "Project id required",
+      });
+      return;
+    }
+
+    const updateData: any = {};
+
+    if (projectName !== undefined) updateData.projectName = projectName;
+    if (projectDescription !== undefined)
+      updateData.projectDescription = projectDescription;
+    if (githubLink !== undefined) updateData.githubLink = githubLink;
+    if (deployedLink !== undefined) updateData.deployedLink = deployedLink;
+
+    if (Object.keys(updateData).length === 0) {
+      res.status(400).json({
+        message: "No fields to update !",
+      });
+      return;
+    }
+
+    const updatedProject = await prisma.project.update({
+      where: {
+        id,
+      },
+      data: updateData,
+    });
+    if (!updateProject) {
+      res.status(400).json({
+        messaeg: "Failed to update project",
+      });
+    }
+
+    res.status(200).json({
+      message: "Project updated successfully",
+      updatedProject,
+    });
+  } catch (error) {
+    console.log(error);
+    const err = error as Error;
+    res.status(500).json({
+      message: "Internal server error",
+      error: err.message,
+    });
+  }
+};

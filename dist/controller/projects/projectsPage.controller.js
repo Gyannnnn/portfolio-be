@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProjectByName = exports.createProject = exports.getProjectsPage = exports.createProjectPage = void 0;
+exports.updateProject = exports.getProjectByName = exports.createProject = exports.getProjectsPage = exports.createProjectPage = void 0;
 const zod_1 = __importDefault(require("zod"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
@@ -181,3 +181,53 @@ const getProjectByName = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getProjectByName = getProjectByName;
+const updateProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id, projectName, projectDescription, githubLink, deployedLink } = req.body;
+        if (!id.trim()) {
+            res.status(400).json({
+                message: "Project id required",
+            });
+            return;
+        }
+        const updateData = {};
+        if (projectName !== undefined)
+            updateData.projectName = projectName;
+        if (projectDescription !== undefined)
+            updateData.projectDescription = projectDescription;
+        if (githubLink !== undefined)
+            updateData.githubLink = githubLink;
+        if (deployedLink !== undefined)
+            updateData.deployedLink = deployedLink;
+        if (Object.keys(updateData).length === 0) {
+            res.status(400).json({
+                message: "No fields to update !",
+            });
+            return;
+        }
+        const updatedProject = yield prisma.project.update({
+            where: {
+                id,
+            },
+            data: updateData,
+        });
+        if (!exports.updateProject) {
+            res.status(400).json({
+                messaeg: "Failed to update project",
+            });
+        }
+        res.status(200).json({
+            message: "Project updated successfully",
+            updatedProject,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        const err = error;
+        res.status(500).json({
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+});
+exports.updateProject = updateProject;
