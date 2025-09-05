@@ -13,6 +13,7 @@ import skillRouter from "./Routes/skill/skill.routes";
 import experienceRouter from "./Routes/experience/experience.routes";
 import educationRouter from "./Routes/education/education.routes";
 import { visitorCountMiddleware } from "./middleware/visitor.middleware";
+import analyticsRouter from "./Routes/analytics/analytics.routes";
 
 app.use(express.json());
 
@@ -42,6 +43,7 @@ app.use("/api/v1/projects", projectPageRouter);
 app.use("/api/v1/skillsection", skillRouter);
 app.use("/api/v1/experience", experienceRouter);
 app.use("/api/v1/education", educationRouter);
+app.use("/api/v1/stats", analyticsRouter);
 
 console.log(process.env.PORT);
 
