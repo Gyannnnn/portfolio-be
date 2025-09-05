@@ -14,6 +14,6 @@ projectPageRouter.post("/create", authMiddleware, createProjectPage);
 projectPageRouter.post("/project/create", authMiddleware, createProject);
 
 projectPageRouter.get("/project/:projectName", getProjectByName);
-projectPageRouter.get("/project/update", authMiddleware, updateProject);
+projectPageRouter.put("/project/update", authMiddleware, updateProject);
 
 export default projectPageRouter;
