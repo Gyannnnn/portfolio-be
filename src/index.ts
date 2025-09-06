@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://portfolio-be-flame.vercel.app/","https://gyanpatra.dev.iitkirba.xyz/"],
+    origin: ["http://localhost:3000", "https://portfolio-be-flame.vercel.app","https://gyanpatra.dev.iitkirba.xyz"],
     methods: ["GET", "PUT", "DELETE", "POST"],
     credentials: true,
   })
