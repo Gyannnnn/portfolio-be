@@ -31,12 +31,15 @@ export const updateIntro = async (req: Request, res: Response) => {
 
     const updateData: any = {};
 
-    if (userHeading !== undefined) updateData.userHeading = userHeading;
-    if (userBio !== undefined) updateData.userBio = userBio;
-    if (userResumeLink !== undefined)
+    if (userHeading !== undefined && userHeading !== "")
+      updateData.userHeading = userHeading;
+    if (userBio !== undefined && userBio !== "") updateData.userBio = userBio;
+    if (userResumeLink !== undefined && userResumeLink !== "")
       updateData.userResumeLink = userResumeLink;
-    if (userEmail !== undefined) updateData.userEmail = userEmail;
-    if (userGithubId !== undefined) updateData.userGithubId = userGithubId;
+    if (userEmail !== undefined && userEmail !== "")
+      updateData.userEmail = userEmail;
+    if (userGithubId !== undefined && userGithubId !== "")
+      updateData.userGithubId = userGithubId;
 
     if (Object.keys(updateData).length === 0) {
       res.status(400).json({

@@ -39,15 +39,15 @@ const updateIntro = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const { userHeading, userBio, userResumeLink, userEmail, userGithubId } = req.body;
         const updateData = {};
-        if (userHeading !== undefined)
+        if (userHeading !== undefined && userHeading !== "")
             updateData.userHeading = userHeading;
-        if (userBio !== undefined)
+        if (userBio !== undefined && userBio !== "")
             updateData.userBio = userBio;
-        if (userResumeLink !== undefined)
+        if (userResumeLink !== undefined && userResumeLink !== "")
             updateData.userResumeLink = userResumeLink;
-        if (userEmail !== undefined)
+        if (userEmail !== undefined && userEmail !== "")
             updateData.userEmail = userEmail;
-        if (userGithubId !== undefined)
+        if (userGithubId !== undefined && userGithubId !== "")
             updateData.userGithubId = userGithubId;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({
