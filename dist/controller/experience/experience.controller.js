@@ -93,9 +93,9 @@ const updateExperienceSection = (req, res) => __awaiter(void 0, void 0, void 0, 
             return;
         }
         const updateData = {};
-        if (experienceHeading !== undefined)
+        if (experienceHeading !== undefined && experienceHeading !== "")
             updateData.experienceHeading = experienceHeading;
-        if (experienceDescription !== undefined)
+        if (experienceDescription !== undefined && experienceDescription !== "")
             updateData.experienceDescription = experienceDescription;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({

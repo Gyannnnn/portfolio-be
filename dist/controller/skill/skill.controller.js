@@ -83,9 +83,9 @@ const updateSkillSection = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const { skillHeading, skillDescription, portfolioId } = req.body;
     try {
         const updateDate = {};
-        if (skillHeading !== undefined)
+        if (skillHeading !== undefined && skillHeading !== "")
             updateDate.skillHeading = skillHeading;
-        if (skillDescription !== undefined)
+        if (skillDescription !== undefined && skillDescription !== "")
             updateDate.skillDescription = skillDescription;
         if (Object.keys(updateDate).length === 0) {
             res.status(400).json({

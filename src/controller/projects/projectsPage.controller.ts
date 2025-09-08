@@ -191,11 +191,14 @@ export const updateProject = async (req: Request, res: Response) => {
 
     const updateData: any = {};
 
-    if (projectName !== undefined) updateData.projectName = projectName;
-    if (projectDescription !== undefined)
+    if (projectName !== undefined && projectName !== "")
+      updateData.projectName = projectName;
+    if (projectDescription !== undefined && projectDescription !== "")
       updateData.projectDescription = projectDescription;
-    if (githubLink !== undefined) updateData.githubLink = githubLink;
-    if (deployedLink !== undefined) updateData.deployedLink = deployedLink;
+    if (githubLink !== undefined && githubLink !== "")
+      updateData.githubLink = githubLink;
+    if (deployedLink !== undefined && deployedLink !== "")
+      updateData.deployedLink = deployedLink;
 
     if (Object.keys(updateData).length === 0) {
       res.status(400).json({

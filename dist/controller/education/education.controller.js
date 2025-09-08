@@ -93,9 +93,9 @@ const updateEducationSection = (req, res) => __awaiter(void 0, void 0, void 0, f
             return;
         }
         const updateData = {};
-        if (educationHeading !== undefined)
+        if (educationHeading !== undefined || educationHeading !== "")
             updateData.educationHeading = educationHeading;
-        if (educationDescription !== undefined)
+        if (educationDescription !== undefined && educationDescription !== "")
             updateData.educationDescription = educationDescription;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({

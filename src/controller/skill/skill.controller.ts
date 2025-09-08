@@ -72,8 +72,8 @@ export const updateSkillSection = async (req: Request, res: Response) => {
   const { skillHeading, skillDescription, portfolioId } = req.body;
   try {
     const updateDate: any = {};
-    if (skillHeading !== undefined) updateDate.skillHeading = skillHeading;
-    if (skillDescription !== undefined)
+    if (skillHeading !== undefined && skillHeading !== "") updateDate.skillHeading = skillHeading;
+    if (skillDescription !== undefined && skillDescription !== "")
       updateDate.skillDescription = skillDescription;
     if (Object.keys(updateDate).length === 0) {
       res.status(400).json({

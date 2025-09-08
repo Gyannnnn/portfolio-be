@@ -84,9 +84,9 @@ export const updateEducationSection = async (req: Request, res: Response) => {
 
     const updateData: any = {};
 
-    if (educationHeading !== undefined)
+    if (educationHeading !== undefined || educationHeading !== "")
       updateData.educationHeading = educationHeading;
-    if (educationDescription !== undefined)
+    if (educationDescription !== undefined && educationDescription !== "")
       updateData.educationDescription = educationDescription;
 
     if (Object.keys(updateData).length === 0) {

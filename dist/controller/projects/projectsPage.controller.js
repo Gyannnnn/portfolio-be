@@ -191,13 +191,13 @@ const updateProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             return;
         }
         const updateData = {};
-        if (projectName !== undefined)
+        if (projectName !== undefined && projectName !== "")
             updateData.projectName = projectName;
-        if (projectDescription !== undefined)
+        if (projectDescription !== undefined && projectDescription !== "")
             updateData.projectDescription = projectDescription;
-        if (githubLink !== undefined)
+        if (githubLink !== undefined && githubLink !== "")
             updateData.githubLink = githubLink;
-        if (deployedLink !== undefined)
+        if (deployedLink !== undefined && deployedLink !== "")
             updateData.deployedLink = deployedLink;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({

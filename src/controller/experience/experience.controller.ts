@@ -84,9 +84,9 @@ export const updateExperienceSection = async (req: Request, res: Response) => {
 
     const updateData: any = {};
 
-    if (experienceHeading !== undefined)
+    if (experienceHeading !== undefined && experienceHeading !== "")
       updateData.experienceHeading = experienceHeading;
-    if (experienceDescription !== undefined)
+    if (experienceDescription !== undefined && experienceDescription !== "")
       updateData.experienceDescription = experienceDescription;
 
     if (Object.keys(updateData).length === 0) {

@@ -85,38 +85,38 @@ const updateAbout = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { aboutHeading, about } = req.body;
     try {
         const updateData = {};
-        if (aboutHeading !== undefined)
+        if (aboutHeading !== undefined && aboutHeading !== "")
             updateData.aboutHeading = aboutHeading;
-        if (about !== undefined)
+        if (about !== undefined && about !== "")
             updateData.about = about;
         if (Object.keys(updateData).length === 0) {
             res.status(400).json({
-                message: "No fields to update"
+                message: "No fields to update",
             });
             return;
         }
         console.log("Portfolio ID:", protfolioId);
         const response = yield prisma.aboutSection.update({
             where: {
-                portfolioId: protfolioId
+                portfolioId: protfolioId,
             },
-            data: updateData
+            data: updateData,
         });
         if (!response) {
             res.status(400).json({
-                message: "Failed to update aboout section"
+                message: "Failed to update aboout section",
             });
             return;
         }
         res.status(200).json({
             message: "Aboout section updated",
-            response
+            response,
         });
     }
     catch (error) {
         res.status(500).json({
             messaeg: "Internal server error",
-            error
+            error,
         });
         console.log(error);
     }
